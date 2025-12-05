@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>JPDB Student Enrollment</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://login2explore.com/jpdb/resources/js/0.0.5/api.js"></script>
+
+<script>
+const DB = "SCHOOL-DB";
+const REL = "STUDENT-TABLE";
+const BASE_URL = "http://api.login2explore.com:5577";
+const TOKEN = "90934879|-31949258450867136|90958073"; 
+
+function disableAll() {
+    document.getElementById("save").disabled = true;
+    document.getElementById("update").disabled = true;
+    document.getElementById("reset").disabled = true;
+
+    let fields = document.getElementsByClassName("fld");
+    for (let f of fields) f.disabled = true;
+
+    document.getElementById("roll").disabled = false;
+    document.getElementById("roll").focus();
+}
+
+function enableSaveMode() {
+    let fields = document.getElementsByClassName("fld");
+    for (let f of fields) f.disabled = false;
+
+    document.getElementById("save").disabled = false;
+    document.getElementById("reset").disabled = false;
+}
+
+function enableUpdateMode() {
+    let fields = document.getElementsByClassName("fld");
+    for (let f of fields) f.disabled = false;
+
+    document.getElementById("roll").disabled = true;
+    document.getElementById("update").disabled = false;
+    document.getElementById("reset").disabled = false;
+}
+
+function checkRollNo() {
+    let roll = document.getElementById("roll").value;
+    if (roll === "") return;
+
+    let keyObj = { "Roll-No": roll };
+    let reqStr = createGET_BY_KEYRequest(TOKEN, DB, REL, JSON.stringify(keyObj));
+
+    jQuery.ajaxSetup({ async: false });
+    let result = executeCommand(reqStr, BASE_URL + "/api/irl");
+    jQuery.ajaxSetup({ async: true });
+
+    if (result.data) {
+        let record = JSON.parse(result.data).record;
+
+        document.getElementById("name").value = record["Full-Name"];
+        document.getElementById("class").value = record["Class"];
+        document.getElementById("bdate").value = record["Birth-Date"];
+        document.getElementById("address").value = record["Address"];
+        document.getElementById("edate").value = record["Enrollment-Date"];
+
+        enableUpdateMode();
+    } else {
+        enableSaveMode();
+    }
+}
+
+function saveRecord() {
+    let obj = {
+        "Roll-No": document.getElementById("roll").value,
+        "Full-Name": document.getElementById("name").value,
+        "Class": document.getElementById("class").value,
+        "Birth-Date": document.getElementById("bdate").value,
+        "Address": document.getElementById("address").value,
+        "Enrollment-Date": document.getElementById("edate").value
+    };
+
+    let reqStr = createPUTRequest(TOKEN, JSON.stringify(obj), DB, REL);
+
+    jQuery.ajaxSetup({ async: false });
+    executeCommand(reqStr, BASE_URL + "/api/iml");
+    jQuery.ajaxSetup({ async: true });
+
+    alert("Record Saved Successfully!");
+    disableAll();
+}
+
+function updateRecord() {
+    let obj = {
+        "Roll-No": document.getElementById("roll").value,
+        "Full-Name": document.getElementById("name").value,
+        "Class": document.getElementById("class").value,
+        "Birth-Date": document.getElementById("bdate").value,
+        "Address": document.getElementById("address").value,
+        "Enrollment-Date": document.getElementById("edate").value
+    };
+
+    let updateReq = createUPDATERecordRequest(TOKEN, JSON.stringify(obj), DB, REL);
+
+    jQuery.ajaxSetup({ async: false });
+    executeCommand(updateReq, BASE_URL + "/api/iml");
+    jQuery.ajaxSetup({ async: true });
+
+    alert("Record Updated Successfully!");
+    disableAll();
+}
+</script>
+
+</head>
+
+<body onload="disableAll()">
+
+<h2>Student Enrollment Form (JPDB)</h2>
+
+Roll No:  
+<input type="number" id="roll" onblur="checkRollNo()"><br><br>
+
+Full Name:  
+<input type="text" id="name" class="fld"><br><br>
+
+Class:  
+<input type="text" id="class" class="fld"><br><br>
+
+Birth Date:  
+<input type="date" id="bdate" class="fld"><br><br>
+
+Address:  
+<input type="text" id="address" class="fld"><br><br>
+
+Enrollment Date:  
+<input type="date" id="edate" class="fld"><br><br>
+
+<button id="save" onclick="saveRecord()">Save</button>
+<button id="update" onclick="updateRecord()">Update</button>
+<button id="reset" onclick="location.reload()">Reset</button>
+
+</body>
+</html>
