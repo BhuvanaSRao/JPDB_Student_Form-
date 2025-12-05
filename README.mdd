@@ -1,0 +1,109 @@
+Student Enrollment Form (JPDB Project)
+
+This is a simple and clean mini-project built using HTML, JavaScript, and JSONPowerDB (JPDB).
+The form allows you to save and update student information based on a unique Roll Number — all without writing any backend or server code.
+
+It’s a perfect example of how powerful a serverless database like JPDB can be for quick CRUD applications.
+
+🚀 Features
+
+Here’s what the form can do:
+
+🔍 Detect student automatically by Roll Number
+
+🆕 If the Roll Number doesn’t exist, the form switches to Save Mode
+
+✏️ If the Roll Number already exists, the form loads the data and enters Update Mode
+
+✔️ Ensures all fields are filled before saving/updating
+
+💾 Saves and updates data in JSONPowerDB in real time
+
+⚡ Uses jQuery + JPDB API for smooth AJAX requests
+
+🎨 Simple and clean interface that's easy to use
+
+📂 Technologies Used
+Technology	Purpose
+HTML5	Form Structure
+CSS3	Page Styling
+JavaScript	Form Logic & Validation
+jQuery	AJAX Communication
+JSONPowerDB	Database (NoSQL Backend-as-a-Service)
+JPDB API.js	CRUD Operations
+🗄️ Database Details (JPDB)
+
+Your entire backend is powered by JSONPowerDB.
+
+Database Name: SCHOOL-DB
+
+Table (Relation): STUDENT-TABLE
+
+Primary Key: Roll-No
+
+✨ The best part? You don’t manually create this database.
+JPDB automatically creates it the moment you save your first record.
+
+📌 How the Project Works
+1️⃣ On Page Load
+
+Only the Roll Number field is active.
+All other fields and buttons are disabled to prevent wrong data entry.
+
+2️⃣ Enter a Roll Number
+
+If JPDB finds a match → existing data loads → Update Mode
+
+If no match is found → the form unlocks → Save Mode
+
+3️⃣ Save / Update
+
+Save inserts a new student record into JPDB
+
+Update modifies the existing one
+
+Everything happens instantly using JPDB’s REST API.
+
+🧩 How to Run the Project
+
+Running this project is super simple:
+
+Download the folder
+
+Open student_form.html in a browser (Chrome / Edge)
+
+Type a Roll No and click outside the field
+
+The form will automatically unlock
+
+Enter details → press Save
+
+For existing Roll No → modify data → press Update
+
+No installations, servers, or databases needed!
+
+📁 Folder Structure (Human-Friendly)
+
+Here’s what the project folder looks like:
+
+JPDB_Student_Form/
+│
+├── student_form.html    ← The main file you will open and run
+└── README.md            ← This project documentation
+
+
+That’s it — just two files. Simple and clean.
+
+🧠 What I Learned
+
+Building this project helped me understand:
+
+How serverless databases work
+
+How to connect a frontend directly to JPDB
+
+How GET, PUT, and UPDATE API calls function
+
+How primary keys control CRUD operations
+
+How to structure a form-based app smoothly
